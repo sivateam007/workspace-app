@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="codemirror.min.css">
+  <script src="codemirror.min.js"></script>
+  <script src="mode/clike/clike.js"></script>
+  <script src="mode/python/python.js"></script>
+  <script src="mode/javascript/javascript.js"></script>
+  <script src="mode/htmlmixed/htmlmixed.js"></script>
+  <script src="mode/css/css.js"></script>
+  <script src="mode/xml/xml.js"></script>
+  <script src="mode/yaml/yaml.js"></script>
+  <script src="mode/sql/sql.js"></script>
+  <script src="mode/markdown/markdown.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #1e1e1e; }
+    .CodeMirror {
+      height: 100vh;
+      font-size: 14px;
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+      line-height: 1.5;
+    }
+    .CodeMirror-gutters { background: #1e1e1e; border-right: 1px solid #333; }
+    .CodeMirror-linenumber { color: #858585; }
+    .cm-s-default .cm-keyword { color: #569cd6; }
+    .cm-s-default .cm-string { color: #ce9178; }
+    .cm-s-default .cm-number { color: #b5cea8; }
+    .cm-s-default .cm-def { color: #dcdcaa; }
+    .cm-s-default .cm-comment { color: #6a9955; }
+    .cm-s-default .cm-variable { color: #d4d4d4; }
+    .cm-s-default .cm-type { color: #4ec9b0; }
+  </style>
+</head>
+<body>
+<textarea id="editor"></textarea>
+<script>
+  var editor = CodeMirror.fromTextArea(
+    document.getElementById("editor"),
+    {
+      lineNumbers: true,
+      theme: "default",
+      indentUnit: 4,
+      tabSize: 4,
+      lineWrapping: false,
+      extraKeys: {
+        "Ctrl-S": function() {
+          Android.onContentChanged(editor.getValue());
+        }
+      }
+    }
+  );
+
+  editor.on("change", function() {
+    Android.onContentChanged(editor.getValue());
+  });
+
+  function setContent(text) {
+    editor.setValue(text);
+    editor.clearHistory();
+  }
+
+  function setMode(mode) {
+    editor.setOption("mode", mode);
+  }
+</script>
+</body>
+</html>
